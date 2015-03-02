@@ -1,19 +1,16 @@
-class Wind
+class Wind extends Object
 {
   
-  float lifespan = 5;
-  float timer = 0;
-  float tick = 0.05;
-  
-  boolean alive = true;
-  
-  PVector forward, fwoosh;
-  float direction, strength;
+  float strength;
   
   Wind()
   {
     direction = random(0, 360);
     strength = random(1, 3);
+    
+    alive = true;
+    
+    lifespan = 5;
     
     //Testing a right-to-left wind, also realised I have no idea what numbers represent a full circle, hence -1.6
     //direction = -1.6;
@@ -49,6 +46,7 @@ class Wind
   {
     Debris d = new Debris(fwoosh, direction);
     debris.add(d);
+    //objects.add(d);
   }
   
 }

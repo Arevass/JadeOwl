@@ -1,21 +1,15 @@
-class Debris
+class Debris extends Object
 {
   
-  PVector fwoosh;
-  PVector pos;
-  float len, direction;
-  
-  boolean alive = true;
-  
-  float lifespan = 25;
-  float timer = 0;
-  float tick = 0.05;
+  float len;
   
   Debris(PVector fwoosh, float direction)
   {
     this.fwoosh = fwoosh;
     this.direction = direction;
     len = random(0, 5);
+    lifespan = 25;
+    alive = true;
     
     pos = new PVector(width + 25, random(5, height - 5));
   }
@@ -34,6 +28,7 @@ class Debris
   
   void display()
   {
+    stroke(255);
     pushMatrix();
     translate(pos.x, pos.y);
     rotate(direction);

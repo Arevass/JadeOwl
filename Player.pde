@@ -1,21 +1,25 @@
-class Player
+class Player extends Object
 {
-  PVector pos, movement;
+  
+  PVector movement;
+  float maxSpeed;
   
   Player()
   {
     pos = new PVector(width / 2, height / 2);
     movement = new PVector(0,0);
+    
+    maxSpeed = 10;
   }
   
   void update()
   {
-    //Caps the player's speed at 5, will need to alter upon implementation of environmental effects
+    //Caps the player's speed at 10, will need to alter upon implementation of environmental effects
     
-    if(movement.x > 5)  { movement.x = 5;  }
-    if(movement.x < -5) { movement.x = -5; }
-    if(movement.y > 5)  { movement.y = 5;  }
-    if(movement.y < -5) { movement.y = -5; }
+    if(movement.x > maxSpeed)  { movement.x = maxSpeed;  }
+    if(movement.x < -maxSpeed) { movement.x = -maxSpeed; }
+    if(movement.y > maxSpeed)  { movement.y = maxSpeed;  }
+    if(movement.y < -maxSpeed) { movement.y = -maxSpeed; }
     
     //If the player isn't currently moving, this will gradually slow down the player
     
@@ -42,15 +46,37 @@ class Player
     if(pos.x < 0)      { pos.x = width - 1; }
     if(pos.x > width)  { pos.x = 1; }
     if(pos.y < 0)      { pos.y = height - 1; }
-    if(pos.y > height) {pos.y = 1; }
+    if(pos.y > height) { pos.y = 1; }
     
     println(movement);
     pos.add(movement);
+    
+    if(frameCount % 10 == 0)
+    {
+      shoot();
+    }
   }
   
   void display()
   {
-    ellipse(pos.x, pos.y, 25, 25);
+    //fill(255);
+    //ellipse(pos.x, pos.y, 25, 25);
+    
+    stroke(255, 0, 0);
+    
+    pushMatrix();
+    translate(pos.x, pos.y, 0);
+    //noFill();
+    sphere(25);
+    popMatrix();
+  }
+  
+  void shoot()
+  {
+    Bullet bullet = new Bullet(1.6);
+    bullet.pos = pos.get();
+    bullets.add(bullet);
+    //objects.add(bullet);
   }
   
 }
