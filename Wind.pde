@@ -12,11 +12,11 @@ class Wind
   
   Wind()
   {
-    //direction = random(0, 360);
+    direction = random(0, 360);
     strength = random(1, 3);
     
     //Testing a right-to-left wind, also realised I have no idea what numbers represent a full circle, hence -1.6
-    direction = -1.6;
+    //direction = -1.6;
     
     forward = new PVector(sin(direction), -cos(direction));
     
