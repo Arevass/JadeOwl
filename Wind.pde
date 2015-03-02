@@ -27,6 +27,11 @@ class Wind
   {
     timer += tick;
     
+    if(frameCount % 30 == 0)
+    {
+      spawnDebris();
+    }
+    
     if(timer > lifespan)
     {
       alive = false;
@@ -38,6 +43,12 @@ class Wind
   void display()
   {
     
+  }
+  
+  void spawnDebris()
+  {
+    Debris d = new Debris(fwoosh, direction);
+    debris.add(d);
   }
   
 }

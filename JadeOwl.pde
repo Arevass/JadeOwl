@@ -1,12 +1,15 @@
 
 ArrayList <Player> players = new ArrayList <Player>();
 ArrayList <Wind> winds = new ArrayList <Wind>();
+ArrayList <Debris> debris = new ArrayList <Debris>();
 PVector speed;
 boolean xMovement, yMovement;
 
 void setup()
 {
   size(1000, 500);
+  stroke(255);
+  fill(255);
   
   xMovement = false;
   yMovement = false;
@@ -34,6 +37,17 @@ void draw()
     if(!winds.get(i).alive)
     {
       winds.remove(i);
+    }
+  }
+  
+  for(int i = 0; i < debris.size(); i ++)
+  {
+    debris.get(i).update();
+    debris.get(i).display();
+    
+    if(!debris.get(i).alive)
+    {
+      debris.remove(i);
     }
   }
 }
