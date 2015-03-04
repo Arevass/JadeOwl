@@ -35,4 +35,15 @@ class Bullet extends Object
     rect(0, -20, 7, 20);
     popMatrix();
   }
+  
+  boolean collisionCheck(Robot e)
+  {
+    if(pos.x < e.pos.x + e.w && pos.x > e.pos.x && pos.y < e.pos.y + e.h && pos.y > e.pos.y)
+    {
+      return true;
+    }
+    
+    return false;
+    
+  }
 }

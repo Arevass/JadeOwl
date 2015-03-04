@@ -8,7 +8,7 @@ class Blackhole extends Object
     bhRotation = 0;
     
     alive = true;
-    lifespan = 30;
+    lifespan = 20;
     
     pos = new PVector(width / 2, height / 2);
   }
@@ -34,6 +34,17 @@ class Blackhole extends Object
     rotateY(bhRotation);
     sphere(15);
     popMatrix();
+  }
+  
+  boolean collisionCheck(Object e)
+  {
+    if(pos.x < e.pos.x + e.w && pos.x > e.pos.x && pos.y < e.pos.y + e.h && pos.y > e.pos.y)
+    {
+      return true;
+    }
+    
+    return false;
+    
   }
   
 }

@@ -53,12 +53,12 @@ class Player extends Object
     if(pos.y < 0)      { pos.y = height - 1; }
     if(pos.y > height) { pos.y = 1; }
     
-    println(movement);
+    //println(movement);
     pos.add(movement);
     
     if(frameCount % 10 == 0)
     {
-      //shoot();
+      shoot();
     }
   }
   
@@ -67,20 +67,17 @@ class Player extends Object
     //fill(255);
     
     stroke(255, 0, 0);
-    
+    /*
     pushMatrix();
     translate(pos.x, pos.y, 0);
     //noFill();
     sphere(25);
     popMatrix();
-    
-    /*
-    pushMatrix();
-    translate(pos.x, pos.y);
-    rotate(direction);
-    rect(-10, -10, 10, 10);
-    popMatrix();
     */
+    
+    imageMode(CENTER);
+    image(playerImage, pos.x, pos.y);
+    
   }
   
   void shoot()
@@ -96,6 +93,16 @@ class Player extends Object
     Missile m = new Missile(radians(90));
     m.pos = pos.get();
     missiles.add(m);
+  }
+  
+  boolean collisionCheck(Object e)
+  {
+    if(pos.x - 10 < e.pos.x + e.w && pos.x + 10 > e.pos.x && pos.y - 10 < e.pos.y + e.h && pos.y + 10 > e.pos.y)
+    {
+      return true;
+    }
+    
+    return false;
   }
   
 }

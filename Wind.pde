@@ -9,7 +9,7 @@ class Wind extends Object
     strength = random(1, 3);
     
     alive = true;
-    lifespan = 5;
+    lifespan = 20;
     
     pos = players.get(0).pos;
     
@@ -31,7 +31,15 @@ class Wind extends Object
       alive = false;
     }
     
-    //players.get(0).pos.add(fwoosh);
+    for (int i = 0; i < robots.size(); i++)
+    {   
+      robots.get(i).pos.add(fwoosh);
+    }
+    
+    for (int i = 0; i < asteroids.size(); i++)
+    {
+      asteroids.get(i).pos.add(fwoosh);
+    }
   }
   
   void display()

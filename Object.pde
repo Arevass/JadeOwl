@@ -10,10 +10,12 @@ class Object
   float tick = 0.05;
   
   float direction;
+  float w, h;
   
   Object()
   {
-    
+    w = 25;
+    h = 25;
   }
   
   void update()
