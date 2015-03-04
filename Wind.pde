@@ -5,18 +5,15 @@ class Wind extends Object
   
   Wind()
   {
-    direction = random(0, 360);
+    direction = radians(90);
     strength = random(1, 3);
     
     alive = true;
-    
     lifespan = 5;
     
-    //Testing a right-to-left wind, also realised I have no idea what numbers represent a full circle, hence -1.6
-    //direction = -1.6;
+    pos = players.get(0).pos;
     
     forward = new PVector(sin(direction), -cos(direction));
-    
     fwoosh = PVector.mult(forward, strength);
   }
   
@@ -34,12 +31,14 @@ class Wind extends Object
       alive = false;
     }
     
-    players.get(0).pos.add(fwoosh);
+    //players.get(0).pos.add(fwoosh);
   }
   
   void display()
   {
-    
+    pushMatrix();
+    translate(pos.x, pos.y);
+    popMatrix();
   }
   
   void spawnDebris()

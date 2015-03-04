@@ -11,7 +11,7 @@ class Debris extends Object
     lifespan = 25;
     alive = true;
     
-    pos = new PVector(width + 25, random(5, height - 5));
+    pos = new PVector(0, random(5, height - 5));
   }
   
   void update()

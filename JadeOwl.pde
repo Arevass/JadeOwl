@@ -6,8 +6,10 @@ ArrayList <Wind> winds = new ArrayList <Wind>();
 ArrayList <Debris> debris = new ArrayList <Debris>();
 ArrayList <Bullet> bullets = new ArrayList <Bullet>();
 ArrayList <Blackhole> holes = new ArrayList <Blackhole>();
+ArrayList <Missile> missiles = new ArrayList <Missile>();
 PVector speed;
 boolean xMovement, yMovement;
+boolean launched = false;
 float bgRotation = 0;
 
 void setup()
@@ -32,7 +34,7 @@ void draw()
   
   bgRotation += 0.01f;
   
-  stroke(255, 0, 0);
+  stroke(0, 0, 255);
   pushMatrix();
   translate(width/2, height/2, -300);
   noFill();
@@ -107,10 +109,23 @@ void draw()
       holes.remove(i);
     }
   }
+  
+  for(int i = 0; i < missiles.size(); i++)
+  {
+    missiles.get(i).update();
+    missiles.get(i).display();
+    
+    if(!missiles.get(i).alive)
+    {
+      missiles.remove(i);
+      launched = false;
+    }
+  }
 }
 
 void eventHorizon()
 {
+  /*
   for(int i = 0; i < holes.size(); i++)
   {
     Blackhole b = holes.get(i);
@@ -126,7 +141,7 @@ void eventHorizon()
       p.pos.add(pull);
     }
   }
-  
+  */
   for(int i = 0; i < holes.size(); i++)
   {
     Blackhole b = holes.get(i);
@@ -138,7 +153,7 @@ void eventHorizon()
       PVector distFrom = PVector.sub(b.pos, d.pos);
       float distance = distFrom.mag();
       distFrom.normalize();
-      PVector pull = PVector.mult(distFrom, (500.0f / distance));
+      PVector pull = PVector.mult(distFrom, (1000.0f / distance));
       d.pos.add(pull);
     }
   }
@@ -148,8 +163,11 @@ void keyPressed()
 {
   if (key == 'w') { players.get(0).movement.y -= speed.y; yMovement = true; }
   if (key == 's') { players.get(0).movement.y += speed.y; yMovement = true; }
-  if (key == 'a') { players.get(0).movement.x -= speed.y; xMovement = true; }
-  if (key == 'd') { players.get(0).movement.x += speed.y; xMovement = true; }
+  if (key == 'a') { players.get(0).movement.x -= speed.x; xMovement = true; }
+  if (key == 'd') { players.get(0).movement.x += speed.x; xMovement = true; }
+  
+  //if (key == 'a') { players.get(0).direction -= 0.1f; xMovement = true; }
+  //if (key == 'd') { players.get(0).direction += 0.1f; xMovement = true; }
   
   if (key == ' ')
   {
@@ -159,8 +177,19 @@ void keyPressed()
   
   if (key == 'e')
   {
-    Blackhole b = new Blackhole();
-    holes.add(b);
+    if(!launched)
+    {
+      players.get(0).shootMissile();
+      
+      launched = true;
+    }
+    else
+    {
+      missiles.get(0).detonate();
+      
+      launched = false;
+      missiles.remove(0);
+    }
   }
 }
 

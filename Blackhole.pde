@@ -32,7 +32,7 @@ class Blackhole extends Object
     translate(pos.x, pos.y, 0);
     rotateX(bhRotation);
     rotateY(bhRotation);
-    sphere(25);
+    sphere(15);
     popMatrix();
   }
   

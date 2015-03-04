@@ -9,11 +9,16 @@ class Player extends Object
     pos = new PVector(width / 2, height / 2);
     movement = new PVector(0,0);
     
+    direction = 0.0f;
+    
     maxSpeed = 10;
   }
   
   void update()
   {
+    
+    forward = new PVector(sin(direction), -cos(direction));
+    
     //Caps the player's speed at 10, will need to alter upon implementation of environmental effects
     
     if(movement.x > maxSpeed)  { movement.x = maxSpeed;  }
@@ -53,14 +58,13 @@ class Player extends Object
     
     if(frameCount % 10 == 0)
     {
-      shoot();
+      //shoot();
     }
   }
   
   void display()
   {
     //fill(255);
-    //ellipse(pos.x, pos.y, 25, 25);
     
     stroke(255, 0, 0);
     
@@ -69,6 +73,14 @@ class Player extends Object
     //noFill();
     sphere(25);
     popMatrix();
+    
+    /*
+    pushMatrix();
+    translate(pos.x, pos.y);
+    rotate(direction);
+    rect(-10, -10, 10, 10);
+    popMatrix();
+    */
   }
   
   void shoot()
@@ -77,6 +89,13 @@ class Player extends Object
     bullet.pos = pos.get();
     bullets.add(bullet);
     //objects.add(bullet);
+  }
+  
+  void shootMissile()
+  {
+    Missile m = new Missile(radians(90));
+    m.pos = pos.get();
+    missiles.add(m);
   }
   
 }
