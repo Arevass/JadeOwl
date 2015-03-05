@@ -3,15 +3,19 @@ class Debris extends Object
   
   float len;
   
-  Debris(PVector fwoosh, float direction)
+  Debris()
   {
-    this.fwoosh = fwoosh;
-    this.direction = direction;
+    direction = radians(270);
+    strength = random(1, 3);
+
     len = random(0, 5);
     lifespan = 25;
     alive = true;
     
-    pos = new PVector(0, random(5, height - 5));
+    pos = new PVector(width, random(35, height - 5));
+    
+    forward = new PVector(sin(direction), -cos(direction));
+    fwoosh = PVector.mult(forward, strength);
   }
   
   void update()

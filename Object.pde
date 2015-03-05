@@ -9,7 +9,7 @@ class Object
   float timer = 0;
   float tick = 0.05;
   
-  float direction;
+  float direction, strength;
   float w, h;
   
   Object()

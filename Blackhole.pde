@@ -15,7 +15,6 @@ class Blackhole extends Object
   
   void update()
   {
-    bhRotation += 0.05f;
     timer += tick;
     
     if(timer > lifespan)
@@ -27,13 +26,6 @@ class Blackhole extends Object
   void display()
   {
     stroke(255, 0, 255);
-    
-    pushMatrix();
-    translate(pos.x, pos.y, 0);
-    rotateX(bhRotation);
-    rotateY(bhRotation);
-    sphere(15);
-    popMatrix();
   }
   
   boolean collisionCheck(Object e)

@@ -24,7 +24,8 @@ PFont font;
 
 void setup()
 {
-  size(1000, 500, P3D);
+  //size(1000, 500, P3D);
+  size(1000, 500);
   stroke(255);
   fill(255);
   
@@ -57,19 +58,7 @@ void setup()
 
 void draw()
 {
-  background(0);
-  lights();
-  
-  bgRotation += 0.01f;
-  
-  stroke(0, 0, 255);
-  pushMatrix();
-  translate(width/2, height/2, -300);
-  noFill();
-  rotateY(bgRotation);
-  sphere(980);
-  popMatrix();
-  
+  background(0);  
   fill(0);
   stroke(0);
   rect(0, 0, width, 35);
@@ -90,7 +79,10 @@ void draw()
   
   if(frameCount % 700 == 0)
   {
-      time --;
+      if(time > 0)
+      {
+        time --;
+      }
   }
   
   if(frameCount % 180 == 0)
@@ -108,7 +100,23 @@ void draw()
     spawnPowerUp();
   }
   
+  if(frameCount % 5 == 0)
+  {
+    spawnDebris();
+  }
+  
   eventHorizon();
+  
+  for(int i = 0; i < debris.size(); i ++)
+  {
+    debris.get(i).update();
+    debris.get(i).display();
+    
+    if(!debris.get(i).alive)
+    {
+      debris.remove(i);
+    }
+  }
   
   for(Player p : players)
   {
@@ -250,17 +258,6 @@ void draw()
         }
       }
   
-  for(int i = 0; i < debris.size(); i ++)
-  {
-    debris.get(i).update();
-    debris.get(i).display();
-    
-    if(!debris.get(i).alive)
-    {
-      debris.remove(i);
-    }
-  }
-  
   /*
   for(int i = 0; i < objects.size(); i++)
   {
@@ -396,6 +393,13 @@ void spawnPowerUp()
   PowerUps u = new PowerUps();
   powerups.add(u);
 }
+
+void spawnDebris()
+{
+  Debris d = new Debris();
+  debris.add(d);
+}
+
 void keyPressed()
 {
   if (key == 'w') { players.get(0).movement.y -= speed.y; yMovement = true; }

@@ -1,8 +1,6 @@
 class Wind extends Object
 {
   
-  float strength;
-  
   Wind()
   {
     direction = radians(90);
@@ -20,11 +18,6 @@ class Wind extends Object
   void update()
   {
     timer += tick;
-    
-    if(frameCount % 30 == 0)
-    {
-      spawnDebris();
-    }
     
     if(timer > lifespan)
     {
@@ -47,13 +40,6 @@ class Wind extends Object
     pushMatrix();
     translate(pos.x, pos.y);
     popMatrix();
-  }
-  
-  void spawnDebris()
-  {
-    Debris d = new Debris(fwoosh, direction);
-    debris.add(d);
-    //objects.add(d);
   }
   
 }
