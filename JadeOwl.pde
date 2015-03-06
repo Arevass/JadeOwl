@@ -16,6 +16,7 @@ PVector speed;
 boolean xMovement, yMovement;
 boolean launched = false;
 float time, lives, tengths;
+int gameState = 0;
 
 void setup()
 {
@@ -86,12 +87,40 @@ void resetGame()
   players.add(p);
 }
 
+void splashScreen()
+{
+  
+}
+
+void gamePlay()
+{
+  
+}
+
+void gameEnd()
+{
+  
+}
+
 void draw()
 {
   background(0);  
   fill(0);
   stroke(0);
-  
+  /*
+  switch(gameState)
+  {
+    case 0:
+    
+      break;
+    case 1:
+    
+      break;
+    case 2:
+    
+      break;
+  }
+  */
   UI();
   spawning();
   eventHorizon();
