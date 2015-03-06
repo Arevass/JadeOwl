@@ -32,13 +32,14 @@ class Bullet extends Object
     pushMatrix();
     translate(pos.x, pos.y);
     rotate(direction);
-    rect(0, -20, 7, 20);
+    rect(0, 0, 5, 20);
     popMatrix();
+    
   }
   
   boolean collisionCheck(Robot e)
   {
-    if(pos.x < e.pos.x + e.w && pos.x > e.pos.x && pos.y < e.pos.y + e.h && pos.y > e.pos.y)
+    if(pos.x < e.pos.x + e.w && pos.x + 20 > e.pos.x && pos.y + 7 < e.pos.y + e.h && pos.y > e.pos.y)
     {
       return true;
     }

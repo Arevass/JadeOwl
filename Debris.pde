@@ -9,7 +9,6 @@ class Debris extends Object
     strength = random(1, 3);
 
     len = random(0, 5);
-    lifespan = 25;
     alive = true;
     
     pos = new PVector(width, random(35, height - 5));
@@ -19,10 +18,8 @@ class Debris extends Object
   }
   
   void update()
-  {
-    timer += tick;
-    
-    if(timer > lifespan)
+  {  
+    if(pos.x < 0)
     {
       alive = false;
     }

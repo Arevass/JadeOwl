@@ -3,7 +3,7 @@ class Object
   
   PVector fwoosh, pos, forward;
   
-  boolean alive;
+  boolean alive, dirUp;
   
   float lifespan;
   float timer = 0;
@@ -16,6 +16,8 @@ class Object
   {
     w = 25;
     h = 25;
+    
+    dirUp = false;
   }
   
   void update()

@@ -6,7 +6,7 @@ class Player extends Object
   
   Player()
   {
-    pos = new PVector(width / 2, height / 2);
+    pos = new PVector(200, height / 2);
     movement = new PVector(0,0);
     
     direction = 0.0f;
@@ -50,8 +50,8 @@ class Player extends Object
     
     if(pos.x < 0)      { pos.x = width - 1; }
     if(pos.x > width)  { pos.x = 1; }
-    if(pos.y < 0)      { pos.y = height - 1; }
-    if(pos.y > height) { pos.y = 1; }
+    if(pos.y < 30)      { pos.y = height - 1; }
+    if(pos.y > height) { pos.y = 30; }
     
     //println(movement);
     pos.add(movement);
@@ -82,26 +82,38 @@ class Player extends Object
   
   void shoot()
   {
-    Bullet bullet = new Bullet(1.6);
+    Bullet bullet = new Bullet(radians(90));
     bullet.pos = pos.get();
+    bullet.pos.y -= 2.5;
+    bullet.pos.x += 10;
     bullets.add(bullet);
-    //objects.add(bullet);
   }
   
   void shootMissile()
   {
     Missile m = new Missile(radians(90));
     m.pos = pos.get();
+    m.pos.y -= 2.5;
+    m.pos.x += 10;
     missiles.add(m);
   }
   
   boolean collisionCheck(Object e)
   {
-    if(pos.x - 10 < e.pos.x + e.w && pos.x + 10 > e.pos.x && pos.y - 10 < e.pos.y + e.h && pos.y + 10 > e.pos.y)
+    if(e instanceof Asteroid)
     {
-      return true;
+      if(pos.x - 30 < e.pos.x + e.w && pos.x + 15 > e.pos.x && pos.y - 30 < e.pos.y + e.h && pos.y + 15 > e.pos.y)
+      {
+        return true;
+      }
     }
-    
+    else
+    {
+      if(pos.x - 50 < e.pos.x + e.w && pos.x + 20 > e.pos.x && pos.y - 50 < e.pos.y + e.h && pos.y + 25 > e.pos.y)
+      {
+        return true;
+      }
+    }
     return false;
   }
   

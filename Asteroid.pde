@@ -8,7 +8,7 @@ class Asteroid extends Object
   {
      PVector tag = new PVector(0, random(0, height));
         
-     pos = new PVector (width-20, random(50,height));
+     pos = new PVector (width, random(50,height));
      
      alive = true;
 
@@ -30,27 +30,19 @@ class Asteroid extends Object
     popMatrix();
     */
     
-    imageMode(CENTER);
+    imageMode(CORNER);
     image(ast, pos.x, pos.y);
-    //rect(pos.x, pos.y, 25, 25);
 
   }
   
   void update()
-  {
-    
-    if(pos.x < 0)
+  {    
+    if(pos.x < -50)
     {
       alive = false;
     }
-    
-    if(pos.x + ast.width > 0)
-    {
-      //pos.add(velocity);
-      pos.x--;
-    }
-    
 
+    pos.x--;
   }
   
 }

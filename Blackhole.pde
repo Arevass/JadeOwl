@@ -9,8 +9,6 @@ class Blackhole extends Object
     
     alive = true;
     lifespan = 20;
-    
-    pos = new PVector(width / 2, height / 2);
   }
   
   void update()
@@ -25,12 +23,14 @@ class Blackhole extends Object
   
   void display()
   {
-    stroke(255, 0, 255);
+    noStroke();
+    fill(0);
+    ellipse(pos.x, pos.y, 25, 25);
   }
   
   boolean collisionCheck(Object e)
   {
-    if(pos.x < e.pos.x + e.w && pos.x > e.pos.x && pos.y < e.pos.y + e.h && pos.y > e.pos.y)
+    if(pos.x - 5 < e.pos.x + e.w && pos.x + 5 > e.pos.x && pos.y - 5 < e.pos.y + e.h && pos.y + 5 > e.pos.y)
     {
       return true;
     }
