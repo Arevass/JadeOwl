@@ -11,7 +11,7 @@ void collisionChecks()
       lives--;
       if(lives <= 0)
       {
-        //end = true;
+        gameState = 2;
       }
     }
   }
@@ -26,7 +26,7 @@ void collisionChecks()
       lives--;
       if(lives <= 0)
       {
-        //end = true;
+        gameState = 2;
       }
     }
   }

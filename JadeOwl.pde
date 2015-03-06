@@ -89,38 +89,16 @@ void resetGame()
 
 void splashScreen()
 {
+  textFont(font, 20);
+  stroke(255);
+  fill(255);
   
+  text("PUT THE LOGO HERE ORLA XOXO", 300, height / 2);
+  text("or press space to play i guess", 350, 400);
 }
 
 void gamePlay()
 {
-  
-}
-
-void gameEnd()
-{
-  
-}
-
-void draw()
-{
-  background(0);  
-  fill(0);
-  stroke(0);
-  /*
-  switch(gameState)
-  {
-    case 0:
-    
-      break;
-    case 1:
-    
-      break;
-    case 2:
-    
-      break;
-  }
-  */
   UI();
   spawning();
   eventHorizon();
@@ -134,7 +112,34 @@ void draw()
         time --;
       }
   }
+}
+
+void gameEnd()
+{
+  stroke(255);
+  fill(255);
+  text("FUCK I'M TIRED SHIT", 300, height / 2);
+  text("space to play more or whatever", 350, 400);
+}
+
+void draw()
+{
+  background(0);  
+  fill(0);
+  stroke(0);
   
+  switch(gameState)
+  {
+    case 0:
+    splashScreen();
+      break;
+    case 1:
+    gamePlay();
+      break;
+    case 2:
+    gameEnd();
+      break;
+  }  
 }
 
 void eventHorizon()
@@ -199,9 +204,9 @@ void keyPressed()
   //if (key == 'd') { players.get(0).direction += 0.1f; xMovement = true; }
   
   if (key == ' ')
-  {
-    Wind w = new Wind();
-    winds.add(w);
+  { 
+    resetGame();
+    gameState = 1;
   }
   
   if (key == 'r')
@@ -212,7 +217,8 @@ void keyPressed()
   
   if (key == 't')
   {
-    resetGame();
+    Wind w = new Wind();
+    winds.add(w);    
   }
   
   if (key == 'e')
