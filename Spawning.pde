@@ -5,12 +5,12 @@ void spawning()
     spawnRobot();
   }
   
-  if(frameCount % 180 == 0)
+  if(frameCount % 120 == 0)
   {
     spawnAsteroid();
   }
   
-  if(frameCount % 360 == 0)
+  if(frameCount % 600 == 0)
   {
     spawnPowerUp();
   }
@@ -18,6 +18,16 @@ void spawning()
   if(frameCount % 5 == 0)
   {
     spawnDebris();
+  }
+  
+  if(frameCount % 540 == 0)
+  {
+    spawnAlien();
+  }
+  
+  if(frameCount % 500 == 0)
+  {
+    spawnKamikaze();
   }
 }
 
@@ -43,4 +53,16 @@ void spawnDebris()
 {
   Debris d = new Debris();
   debris.add(d);
+}
+
+void spawnAlien()
+{
+  Alien a = new Alien();
+  aliens.add(a);
+}
+
+void spawnKamikaze()
+{
+  Kamikaze k = new Kamikaze();
+  kamikazes.add(k);
 }

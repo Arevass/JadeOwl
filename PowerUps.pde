@@ -3,7 +3,7 @@ class PowerUps extends Object
   int image;
   PowerUps()
   {
-     image = (int) random(1, 4);
+     image = (int) random(1, 5);
      pos = new PVector(width - 20, random(50, height - h));
      
      alive = true;
@@ -33,6 +33,13 @@ class PowerUps extends Object
       pushMatrix();
       translate(pos.x, pos.y);
       image(lightning, 0, 0);
+      popMatrix();
+    }
+    if(image == 4)
+    {
+      pushMatrix();
+      translate(pos.x, pos.y);
+      image(fuel, 0, 0);
       popMatrix();
     }
   }

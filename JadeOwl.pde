@@ -1,10 +1,14 @@
 
-ArrayList <Object> objects = new ArrayList <Object>();
+import ddf.minim.*;
+
+AudioPlayer bgMusic;
+Minim minim;
 
 ArrayList <Player> players = new ArrayList <Player>();
 ArrayList <Wind> winds = new ArrayList <Wind>();
 ArrayList <Debris> debris = new ArrayList <Debris>();
 ArrayList <Bullet> bullets = new ArrayList <Bullet>();
+ArrayList <Kamikaze> kamikazes = new ArrayList <Kamikaze>();
 ArrayList <Bomber> bombers = new ArrayList <Bomber>();
 ArrayList <Explosion> explosions = new ArrayList <Explosion>();
 ArrayList <Blackhole> holes = new ArrayList <Blackhole>();
@@ -12,10 +16,17 @@ ArrayList <Missile> missiles = new ArrayList <Missile>();
 ArrayList <Robot> robots = new ArrayList <Robot>();
 ArrayList <Asteroid> asteroids = new ArrayList <Asteroid>();
 ArrayList <PowerUps> powerups = new ArrayList <PowerUps>();
+ArrayList <Timer> timers = new ArrayList <Timer>();
+ArrayList <Alien> aliens = new ArrayList <Alien>();
+ArrayList <Glob> globs = new ArrayList <Glob>();
 PVector speed;
 boolean xMovement, yMovement;
 boolean launched = false;
-float time, lives, tengths;
+boolean firstMissile = true;
+boolean stuck = false;
+float time, lives, tengths, stuckTimer, score, currentTime, delay, scoreInc;
+float Rcol, Gcol, Bcol = 0;
+int currentPowerup;
 int gameState = 0;
 
 void setup()
@@ -26,6 +37,11 @@ void setup()
   fill(255);
   
   loadImages();
+    
+  minim = new Minim(this);
+  bgMusic = minim.loadFile("GameMusic.mp3");
+  
+  bgMusic.loop();
   
   xMovement = false;
   yMovement = false;
@@ -33,20 +49,25 @@ void setup()
   time = 5; lives = 5;
   tengths = width / 10;
   
+  delay = 1000;
+  
   Player p = new Player();
   speed = new PVector(5, 5);
   players.add(p);
-  objects.add(p);
 }
 
 void UI()
 {
+  
+  fill(0);
+  stroke(0);
   rect(0, 0, width, 35);
   
   fill(255);
   textFont(font);
   text("Fuel:", 10, 27);
   text("Life:", tengths * 3.2, 27);
+  text("Score: " + score, tengths * 6.5, 27);
   rect(100, 5, 200, 20);
   rect(tengths * 4, 5, 200, 20);
   
@@ -58,11 +79,19 @@ void UI()
   rect(tengths * 4, 5, 40*lives, 20);
   
   imageMode(CORNER);
-  image(wind, tengths * 6.5, 5);
-  image(blackhole, tengths * 7, 5);
-  image(lightning, tengths * 7.5, 5);
-  bomber.resize(pSize, pSize);
-  image(bomber, tengths * 8, 5);
+  switch(currentPowerup)
+  {
+    case 0:
+      break;
+    case 1:
+      image(wind, tengths * 9, 5);
+      break;
+    case 2:
+      image(blackhole, tengths * 9, 5);
+      break;
+    default:
+      break;
+  }
 }
 
 void resetGame()
@@ -78,10 +107,14 @@ void resetGame()
   robots.clear();
   asteroids.clear();
   powerups.clear();
+  aliens.clear();
+  globs.clear();
+  timers.clear();
+  kamikazes.clear();
   
   time = 5;
   lives = 5;
-  //score = 0;
+  score = 0;
   
   Player p = new Player();
   players.add(p);
@@ -93,23 +126,43 @@ void splashScreen()
   stroke(255);
   fill(255);
   
-  text("PUT THE LOGO HERE ORLA XOXO", 300, height / 2);
-  text("or press space to play i guess", 350, 400);
+  background(splashScreen);
+}
+
+void instructions()
+{
+  background(0);
+  
+  imageMode(CENTER);
+  image(instructions, width / 2, height / 2);
 }
 
 void gamePlay()
-{
-  UI();
+{ 
   spawning();
   eventHorizon();
   drawing();
+  UI();
   collisionChecks();
+  gotStuck();
+  
+  if(millis() - currentTime >= delay)
+  {
+    scoreInc = 1;
+    score += scoreInc;
+    currentTime = millis();
+  }
   
   if(frameCount % 700 == 0)
   {
       if(time > 0)
       {
         time --;
+      }
+      
+      if(time <= 0)
+      {
+        gameState = 2;
       }
   }
 }
@@ -118,8 +171,8 @@ void gameEnd()
 {
   stroke(255);
   fill(255);
-  text("FUCK I'M TIRED SHIT", 300, height / 2);
-  text("space to play more or whatever", 350, 400);
+  
+  background(endScreen);
 }
 
 void draw()
@@ -138,6 +191,9 @@ void draw()
       break;
     case 2:
     gameEnd();
+      break;
+    case 3:
+    instructions();
       break;
   }  
 }
@@ -191,51 +247,109 @@ void eventHorizon()
       a.pos.add(pull);
     }
   }
+  
+  for(int i = 0; i < holes.size(); i++)
+  {
+    Blackhole b = holes.get(i);
+    
+    for(int j = 0; j < aliens.size(); j++)
+    {
+      Alien a = aliens.get(j);
+      
+      PVector distFrom = PVector.sub(b.pos, a.pos);
+      float distance = distFrom.mag();
+      distFrom.normalize();
+      PVector pull = PVector.mult(distFrom, (1000.0f / distance));
+      a.pos.add(pull);
+    }
+  }
+}
+
+void activatePowerup()
+{
+  switch(currentPowerup)
+  {
+    case 0:
+      break;
+    case 1:
+      Wind w = new Wind();
+      winds.add(w); 
+      
+      currentPowerup = 0;
+      break;
+    case 2:
+      if(!launched)
+      {
+        players.get(0).shootMissile();
+        
+        launched = true;
+      }
+      else
+      {
+        missiles.get(0).detonate();
+        
+        launched = false;
+        currentPowerup = 0;
+        missiles.remove(0);
+      }
+      
+      break;
+    case 3:
+      break;
+    default:
+      break;
+  }
+     
+}
+
+void gotStuck()
+{ 
+  stuckTimer += 0.05f;
+  
+  if(stuckTimer >= 3)
+  {
+    stuck = false;
+  }
 }
 
 void keyPressed()
 {
-  if (key == 'w') { players.get(0).movement.y -= speed.y; yMovement = true; }
-  if (key == 's') { players.get(0).movement.y += speed.y; yMovement = true; }
-  if (key == 'a') { players.get(0).movement.x -= speed.x; xMovement = true; }
-  if (key == 'd') { players.get(0).movement.x += speed.x; xMovement = true; }
-  
-  //if (key == 'a') { players.get(0).direction -= 0.1f; xMovement = true; }
-  //if (key == 'd') { players.get(0).direction += 0.1f; xMovement = true; }
-  
+  if(!stuck)
+  {
+    if (key == 'w') { players.get(0).movement.y -= speed.y; yMovement = true; }
+    if (key == 's') { players.get(0).movement.y += speed.y; yMovement = true; }
+    if (key == 'a') { players.get(0).movement.x -= speed.x; xMovement = true; }
+    if (key == 'd') { players.get(0).movement.x += speed.x; xMovement = true; }
+  }
   if (key == ' ')
   { 
-    resetGame();
-    gameState = 1;
-  }
-  
-  if (key == 'r')
-  {
-    Bomber b = new Bomber();
-    bombers.add(b);
-  }
-  
-  if (key == 't')
-  {
-    Wind w = new Wind();
-    winds.add(w);    
-  }
-  
-  if (key == 'e')
-  {
-    if(!launched)
+    if(gameState != 1)
     {
-      players.get(0).shootMissile();
-      
-      launched = true;
+      resetGame();
+      gameState = 1;
     }
-    else
-    {
-      missiles.get(0).detonate();
-      
-      launched = false;
-      missiles.remove(0);
-    }
+  }
+  
+  if (key == 'e' || key == 'E')
+  {
+    activatePowerup();
+  }
+  
+  if (key == 'i' || key == 'I')
+  {
+    gameState = 3;
+  }
+  
+  if (key == 'p' || key == 'P')
+  {
+    fill(255);
+    text("Press R to resume", (width / 2) - 30, height / 2);
+    noLoop();
+  }
+  
+  if (key == 'r' || key == 'R')
+  {
+    loop();
   }
 }
 

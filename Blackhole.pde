@@ -9,6 +9,8 @@ class Blackhole extends Object
     
     alive = true;
     lifespan = 20;
+    
+    firstMissile = false;
   }
   
   void update()

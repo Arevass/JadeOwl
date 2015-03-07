@@ -56,27 +56,22 @@ class Player extends Object
     //println(movement);
     pos.add(movement);
     
-    if(frameCount % 10 == 0)
+    if(frameCount % 30 == 0)
     {
       shoot();
     }
   }
   
   void display()
-  {
-    //fill(255);
-    
+  { 
     stroke(255, 0, 0);
-    /*
-    pushMatrix();
-    translate(pos.x, pos.y, 0);
-    //noFill();
-    sphere(25);
-    popMatrix();
-    */
     
     imageMode(CENTER);
     image(playerImage, pos.x, pos.y);
+    if(stuck)
+    {
+      image(glob, pos.x, pos.y);
+    }
     
   }
   
@@ -100,7 +95,7 @@ class Player extends Object
   
   boolean collisionCheck(Object e)
   {
-    if(e instanceof Asteroid)
+    if(e instanceof Asteroid || e instanceof Alien)
     {
       if(pos.x - 30 < e.pos.x + e.w && pos.x + 15 > e.pos.x && pos.y - 30 < e.pos.y + e.h && pos.y + 15 > e.pos.y)
       {

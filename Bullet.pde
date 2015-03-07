@@ -1,7 +1,7 @@
 class Bullet extends Object
 {
   
-  float bulletSpeed = 20;
+  float bulletSpeed = 10;
   
   Bullet(float direction)
   {
@@ -14,9 +14,8 @@ class Bullet extends Object
   
   void update()
   {
-    timer += tick;
     
-    if(timer > lifespan)
+    if(pos.x > width)
     {
       alive = false;
     }
@@ -37,7 +36,7 @@ class Bullet extends Object
     
   }
   
-  boolean collisionCheck(Robot e)
+  boolean collisionCheck(Object e)
   {
     if(pos.x < e.pos.x + e.w && pos.x + 20 > e.pos.x && pos.y + 7 < e.pos.y + e.h && pos.y > e.pos.y)
     {

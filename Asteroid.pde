@@ -37,7 +37,7 @@ class Asteroid extends Object
   
   void update()
   {    
-    if(pos.x < -50)
+    if(pos.x < -50 || pos.x > width + 100)
     {
       alive = false;
     }

@@ -33,6 +33,11 @@ class Wind extends Object
     {
       asteroids.get(i).pos.add(fwoosh);
     }
+    
+    for (int i = 0; i < aliens.size(); i++)
+    {
+      aliens.get(i).pos.add(fwoosh);
+    }
   }
   
   void display()

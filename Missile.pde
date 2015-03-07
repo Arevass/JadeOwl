@@ -13,10 +13,8 @@ class Missile extends Object
   }
   
   void update()
-  {
-    timer += tick;
-    
-    if(timer > lifespan)
+  { 
+    if(pos.x > width)
     {
       alive = false;
     }
@@ -29,10 +27,15 @@ class Missile extends Object
   {
     fill(255, 0, 255);
     
+    if(firstMissile)
+    {
+      text("E", pos.x - 20, pos.y - 20);
+    }
+    
     pushMatrix();
     translate(pos.x, pos.y);
     rotate(direction);
-    rect(0, -20, 7, 20);
+    rect(0, 0, 7, 20);
     popMatrix();
   }
   

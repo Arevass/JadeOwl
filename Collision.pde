@@ -16,12 +16,50 @@ void collisionChecks()
     }
   }
   
+  for(int i = 0; i < aliens.size(); i++)
+  {
+    Alien a = aliens.get(i);
+    if(p.collisionCheck(a))
+    {
+      aliens.remove(i);
+      lives--;
+      if(lives <= 0)
+      {
+        gameState = 2;
+      }
+    }
+  }
+  
+  for(int i = 0; i < kamikazes.size(); i++)
+  {
+    Kamikaze k = kamikazes.get(i);
+    if(p.collisionCheck(k))
+    {
+      kamikazes.remove(i);
+      lives--;
+      if(lives <= 0)
+      {
+        gameState = 2;
+      }
+    }
+  }
+  
+  for(int i = 0; i < globs.size(); i++)
+  {
+    Glob g = globs.get(i);
+    if(p.collisionCheck(g))
+    {
+      globs.remove(i);
+      stuckTimer = 0;
+      stuck = true;
+    }
+  }
+  
   for(int i = 0; i < asteroids.size(); i++)
   {
     Asteroid a = asteroids.get(i);
     if(p.collisionCheck(a))
     {
-      println("test");
       asteroids.remove(i);
       lives--;
       if(lives <= 0)
@@ -36,6 +74,27 @@ void collisionChecks()
     PowerUps u = powerups.get(i);
     if(p.collisionCheck(u))
     {
+      if(currentPowerup == 0)
+      {
+        if(u.image < 3)
+        {
+          currentPowerup = u.image;
+        }
+        
+        if(u.image == 3)
+        {
+          Timer t = new Timer();
+          timers.add(t);
+        }
+        
+        if(u.image == 4)
+        {
+          if(time < 5)
+          {
+            time++;
+          }
+        }
+      }
       powerups.remove(i);
     }
   }
@@ -55,16 +114,24 @@ void collisionChecks()
           robots.remove(i);
         }
       }
-      /*
+      
       for(int i = 0; i < aliens.size(); i++)
       {
         Alien a = aliens.get(i);
-        if(e.collisionCheck(a))
+        if(b.collisionCheck(a))
         {
           aliens.remove(i);
         }
       }
-      */
+      
+      for(int i = 0; i < kamikazes.size(); i++)
+      {
+        Kamikaze k = kamikazes.get(i);
+        if(b.collisionCheck(k))
+        {
+          kamikazes.remove(i);
+        }
+      }
     }
   }
     
@@ -90,7 +157,7 @@ void collisionChecks()
         asteroids.remove(i);
       }
     }
-    /*
+    
     for(int i = 0; i < aliens.size(); i++)
     {
       Alien a = aliens.get(i);
@@ -99,9 +166,9 @@ void collisionChecks()
         aliens.remove(i);
       }
     }
-    */
+    
   }
-  
+  /*
   for(int j = 0; j < explosions.size(); j++)
   {
     
@@ -124,7 +191,7 @@ void collisionChecks()
         robots.remove(i);
       }
     }
-    /*
+    
     for(int i = 0; i < aliens.size(); i++)
     {
       Alien a = aliens.get(i);
@@ -133,6 +200,6 @@ void collisionChecks()
         aliens.remove(i);
       }
     }
-    */
   }
+  */
 }
