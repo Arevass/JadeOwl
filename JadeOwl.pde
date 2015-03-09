@@ -126,6 +126,8 @@ void resetGame()
   timers.clear();
   kamikazes.clear();
   
+  currentPowerup = 0;
+  
   time = 5;
   lives = 5;
   score = 0;
