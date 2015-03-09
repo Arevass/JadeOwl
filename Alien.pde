@@ -6,6 +6,9 @@ class Alien extends Object
     pos = new PVector (width + 20, random(50, height));
     
     alive = true;
+    
+    w = 50;
+    h = 50;
   }
   
   void update()

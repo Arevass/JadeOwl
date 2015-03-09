@@ -6,6 +6,9 @@ class Kamikaze extends Object
   {
     pos = new PVector(width, random(0, height));
     alive = true;
+    
+    w = 50;
+    h = 50;
   }
   
   void update()
@@ -23,6 +26,7 @@ class Kamikaze extends Object
   {
     fill(255);
     stroke(255);
+    imageMode(CORNER);
     image(bomber, pos.x, pos.y);    
   }
 }

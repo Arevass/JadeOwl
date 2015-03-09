@@ -12,7 +12,7 @@ class Robot extends Object
     robotSpeed = 1;
     
     w = 25;
-    h = 25;
+    h = 35;
     
     alive = true;
     

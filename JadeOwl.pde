@@ -29,10 +29,24 @@ float Rcol, Gcol, Bcol = 0;
 int currentPowerup;
 int gameState = 0;
 
+boolean devMode = false;
+
+boolean sketchFullScreen()
+{
+  return ! devMode;
+}
+
 void setup()
 {
-  size(1000, 500);
-  //size(displayWidth, displayHeight);
+  if(devMode)
+  {
+    size(1000, 500);
+  }
+  else
+  {
+    size(displayWidth, displayHeight);
+  }
+  
   stroke(255);
   fill(255);
   
@@ -214,11 +228,6 @@ void eventHorizon()
       PVector pull = PVector.mult(distFrom, (1000.0f / distance));
       d.pos.add(pull);
     }
-  }
-  
-  for(int i = 0; i < holes.size(); i++)
-  {
-    Blackhole b = holes.get(i);
     
     for(int j = 0; j < robots.size(); j++)
     {
@@ -230,11 +239,6 @@ void eventHorizon()
       PVector pull = PVector.mult(distFrom, (1000.0f / distance));
       r.pos.add(pull);
     }
-  }
-  
-  for(int i = 0; i < holes.size(); i++)
-  {
-    Blackhole b = holes.get(i);
     
     for(int j = 0; j < asteroids.size(); j++)
     {
@@ -246,11 +250,6 @@ void eventHorizon()
       PVector pull = PVector.mult(distFrom, (1000.0f / distance));
       a.pos.add(pull);
     }
-  }
-  
-  for(int i = 0; i < holes.size(); i++)
-  {
-    Blackhole b = holes.get(i);
     
     for(int j = 0; j < aliens.size(); j++)
     {
@@ -261,6 +260,17 @@ void eventHorizon()
       distFrom.normalize();
       PVector pull = PVector.mult(distFrom, (1000.0f / distance));
       a.pos.add(pull);
+    }
+    
+    for(int j = 0; j < kamikazes.size(); j++)
+    {
+      Kamikaze k = kamikazes.get(j);
+      
+      PVector distFrom = PVector.sub(b.pos, k.pos);
+      float distance = distFrom.mag();
+      distFrom.normalize();
+      PVector pull = PVector.mult(distFrom, (1000.0f / distance));
+      k.pos.add(pull);
     }
   }
 }

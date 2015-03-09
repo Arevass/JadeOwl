@@ -91,7 +91,7 @@ void collisionChecks()
         {
           if(time < 5)
           {
-            time++;
+            time = 5;
           }
         }
       }
@@ -164,6 +164,15 @@ void collisionChecks()
       if(b.collisionCheck(a))
       {
         aliens.remove(i);
+      }
+    }
+    
+    for(int i = 0; i < kamikazes.size(); i++)
+    {
+      Kamikaze k = kamikazes.get(i);
+      if(b.collisionCheck(k))
+      {
+        kamikazes.remove(i);
       }
     }
     
